@@ -5,11 +5,11 @@ require 'redmine'
 
 Redmine::Plugin.register :redmine_wikiforms do
 
-  name 'Redmine Wiki checkbox plugin'
+  name 'Redmine Wiki forms plugin'
   author '5inf'
-  description 'This macro provides checkboxes on wiki pages.'
+  description 'This macro provides input fields and a very simple report functionality for redmine pages.'
   version '0.0.0'
-  url 'https://github.com/5inf/redmine_wikicheckbox'
+  url 'https://github.com/5inf/redmine_wikiforms'
   author_url 'https://github.com/5inf/'
 
   Redmine::WikiFormatting::Macros.register do
