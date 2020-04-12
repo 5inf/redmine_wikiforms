@@ -78,7 +78,10 @@ Redmine::Plugin.register :redmine_wikiforms do
       if obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)
         out = content_tag(:label, label+" " , :for => name, :class => "rangefieldlabel")
         out << content_tag(:input, "", :name=>name, :id=>id, :class=>"rangefield", :type => "number", :step=>"0.1", :min => min, :max => max, :value => value, :placeholder => target, :onchange => "{if(parseFloat(this.value)<parseFloat(this.min)||parseFloat(this.value)>parseFloat(this.max)){this.style.backgroundColor='\#ff0000cc';}else{this.style.backgroundColor='\#ffffffff';}}")
-				tag = " "+unit+" ("+min+" "+unit+",..., "+max+" "+unit+")"
+				tag = " "+unit
+				tag +=  min != "" ? " ("+min+" "+unit+", ... ": " (..."
+				tag += target != "" ? ", "+target+" "+unit+", ... " : ""
+				tag += max != "" ? ", "+max+" "+unit+")" : ")"
         out << tag.html_safe
         out
       else
@@ -96,12 +99,33 @@ Redmine::Plugin.register :redmine_wikiforms do
 			placeholder = options[:placeholder] || ""
       value = options[:value] || ""
 
+      if obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)
+        out = "".html_safe
+        tag = "<label for='"+name+"' class='stringfieldlabel'>"+label+" </label>\n"
+        tag << "<input type='text' class='stringfield' id='"+id+"' name='"+name+"' value='"+value+"' placeholder='"+placeholder+"'>\n"
+        out << tag.html_safe
+        out
+			else
+          raise 'This macro can be called from wiki pages only.'
+      end
+		end
+
+		macro :requestfield do |obj, args|
+      args, options = extract_macro_options(args, :size, :name, :value, :label, :placeholder, :requestcode)
+
+      id = "requestfield" + SecureRandom.urlsafe_base64(8)
+
+      name = options[:name] || options[:label] || id
+      label = options[:label] || options[:name] ||  id
+			placeholder = options[:placeholder] || ""
+      value = options[:value] || ""
 
       if obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)
         out = "".html_safe
         tag = "<label for='"+name+"' class='stringfieldlabel'>"+label+" </label>\n"
         tag << "<input type='text' class='stringfield' id='"+id+"' name='"+name+"' value='"+value+"' placeholder='"+placeholder+"'>\n"
         out << tag.html_safe
+				out << content_tag(:button, 'Anfordern', :class => 'requestfieldbutton', :id=>"button"+id, :name=>"button"+id, :onClick => "sn=getElementById('"+id+"');if(confirm('Obtain number?')){sn.value=sn.placeholder+'12345';}")
         out
 			else
           raise 'This macro can be called from wiki pages only.'
@@ -149,7 +173,7 @@ Redmine::Plugin.register :redmine_wikiforms do
 					}
         SCRIPTCODE
         out << javascript_tag(javascriptcode)
-        tag = " <button type='button' onClick='protocolbuttonPressed()' class='protocolbutton' id='"+id+"' name='"+id+"' value='reload'>"+label+"</button>\n"
+        tag = " <button type='button' onClick='protocolbuttonPressed()' class='protocolbutton' id='"+id+"' name='"+id+"' value='protocol'>"+label+"</button>\n"
         out << tag.html_safe
         out
       else
