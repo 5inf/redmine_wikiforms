@@ -115,8 +115,8 @@ DESCRIPTION
 This macro displays a html text input field on the wiki page.
 The value of this field does not get stored on the wiki page. It is just used for visualization and for generating a report as long as the page does not get reloaded.
 Syntax:
-	{{requestfield}}
-	{{requestfield([label=LABEL,name=NAME])}}
+	{{stringfield}}
+	{{stringfield([label=LABEL,name=NAME,placeholder=PLACEHOLDER,value=VALUU])}}
 	LABEL = The label printed in front of the field
 	NAME = The name displayed in the report
 	PLACEHOLDER = placeholder text displayed when the field is empty
@@ -139,6 +139,41 @@ DESCRIPTION
 				out = "".html_safe
 				tag = "<label for='"+name+"' class='stringfieldlabel'>"+label+" </label>\n"
 				tag << "<input type='text' class='stringfield' id='"+id+"' name='"+name+"' value='"+value+"' placeholder='"+placeholder+"'>\n"
+				out << tag.html_safe
+				out
+			else
+					raise 'This macro can be called from wiki pages only.'
+			end
+		end
+
+	desc <<-DESCRIPTION
+This macro displays a html text area field on the wiki page.
+The value of this field does not get stored on the wiki page. It is just used for visualization and for generating a report as long as the page does not get reloaded.
+Syntax:
+	{{textarea}}
+	{{textarea([label=LABEL,name=NAME,placeholder=PLACEHOLDER,value=VALUU])}}
+	LABEL = The label printed in front of the field
+	NAME = The name displayed in the report
+	PLACEHOLDER = placeholder text displayed when the field is empty
+	VALUE = predefined value for this field
+Examples:
+	{{textarea}}
+	{{textarea([label=Value of Parameter Y,name=paramY,placeholder=parmY])}}
+DESCRIPTION
+		macro :textarea do |obj, args|
+			args, options = extract_macro_options(args, :size, :name, :value, :label, :placeholder)
+
+			id = "textarea" + SecureRandom.urlsafe_base64(8)
+
+			name = options[:name] || options[:label] || id
+			label = options[:label] || options[:name] ||	id
+			placeholder = options[:placeholder] || ""
+			value = options[:value] || ""
+
+			if obj.is_a?(WikiContent) || obj.is_a?(WikiContent::Version)
+				out = "".html_safe
+				tag = "<label for='"+name+"' class='textfieldlabel'>"+label+" </label>\n"
+				tag << "<textarea class='textarea' id='"+id+"' name='"+name+"' placeholder='"+placeholder+"'>"+value+"</textarea>\n"
 				out << tag.html_safe
 				out
 			else
