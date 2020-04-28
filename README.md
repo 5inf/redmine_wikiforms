@@ -82,6 +82,24 @@ Examples:
   	
     {{stringfield}}
     {{stringfield([label=Value of Parameter Y,name=paramY,placeholder=parmY])}}
+    
+### textarea macro
+    
+This macro displays a html text area field on the wiki page.
+The value of this field does not get stored on the wiki page. It is just used for visualization and for generating a report as long as the page does not get reloaded.
+
+Syntax:
+
+	{{textarea}}
+	{{textarea([label=LABEL,name=NAME,placeholder=PLACEHOLDER,value=VALUU])}}
+	LABEL = The label printed in front of the field
+	NAME = The name displayed in the report
+	PLACEHOLDER = placeholder text displayed when the field is empty
+	VALUE = predefined value for this field
+Examples:
+
+	{{textarea}}
+	{{textarea([label=Value of Parameter Y,name=paramY,placeholder=parmY])}}
 
 ### requestfield macro
 
