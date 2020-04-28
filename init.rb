@@ -267,10 +267,12 @@ DESCRIPTION
 						var rangefields = document.getElementsByClassName('rangefield');
 						var stringfields = document.getElementsByClassName('stringfield');
 						var checkboxes = document.getElementsByClassName('wikicheckbox');
+						var textareas = document.getElementsByClassName('textarea');
 						var html='<html><head></head><body><p>Testreport</p>';
 						for (var i = 0; i < rangefields.length; i++) {html+='<p>name: '+rangefields.item(i).name+' value: '+rangefields.item(i).value+'</p>';}
 						for (var i = 0; i < stringfields.length; i++) {html+='<p>name: '+stringfields.item(i).name+' value: '+stringfields.item(i).value+'</p>';}
 						for (var i = 0; i < checkboxes.length; i++) {html+='<p>name: '+checkboxes.item(i).name+' value: '+checkboxes.item(i).checked+'</p>';}
+						for (var i = 0; i < textareas.length; i++) {html+='<p>name: '+textareas.item(i).name+' value: '+textareas.item(i).value+'</p>';}
 						html += '</body>';
 						var tab = window.open('about:blank', '_blank');
 						tab.document.write(html); // where 'html' is a variable containing your HTML
