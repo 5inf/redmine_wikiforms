@@ -6,7 +6,7 @@ This plugin provides macros for displaying input fields on and a simple report g
 Requirements
 ------------
 
-Redmine 3.0.x, 3.1.x, 4.0.x or 4.1.x
+Redmine 3.0.x, 3.1.x, 4.0.x, 4.1.x or 5.0.x
 Other versions are not tested but may work.
 
 Installation
